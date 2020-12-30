@@ -15,16 +15,10 @@ ActiveRecord::Schema.define(version: 2020_12_30_001759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "card_types", force: :cascade do |t|
-    t.string "type", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "cards", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
-    t.bigint "card_type_id"
+    t.string "color"
     t.bigint "effect_id"
     t.integer "number", null: false
     t.string "suit", null: false
@@ -33,7 +27,6 @@ ActiveRecord::Schema.define(version: 2020_12_30_001759) do
     t.string "place", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["card_type_id"], name: "index_cards_on_card_type_id"
     t.index ["effect_id"], name: "index_cards_on_effect_id"
   end
 
@@ -53,21 +46,20 @@ ActiveRecord::Schema.define(version: 2020_12_30_001759) do
   end
 
   create_table "games", force: :cascade do |t|
+    t.integer "id_g"
     t.bigint "player_id"
-    t.bigint "role_id"
-    t.bigint "card_id"
+    t.string "card"
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["card_id"], name: "index_games_on_card_id"
     t.index ["player_id"], name: "index_games_on_player_id"
-    t.index ["role_id"], name: "index_games_on_role_id"
   end
 
   create_table "players", force: :cascade do |t|
-    t.bigint "role_id"
-    t.bigint "character_id"
-    t.bigint "card_id"
-    t.bigint "user_id"
+    t.bigint "role_id", null: false
+    t.bigint "character_id", null: false
+    t.string "card"
+    t.bigint "user_id", null: false
     t.integer "range"
     t.integer "position", null: false
     t.integer "cur_hp", null: false
@@ -77,7 +69,6 @@ ActiveRecord::Schema.define(version: 2020_12_30_001759) do
     t.boolean "bomb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["card_id"], name: "index_players_on_card_id"
     t.index ["character_id"], name: "index_players_on_character_id"
     t.index ["role_id"], name: "index_players_on_role_id"
     t.index ["user_id"], name: "index_players_on_user_id"

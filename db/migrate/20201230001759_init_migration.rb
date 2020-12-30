@@ -7,10 +7,6 @@ class InitMigration < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
-    create_table :card_types do |t|
-      t.string :type, null: false
-      t.timestamps
-    end
 
     create_table :effects do |t|
       t.string :effect, null: false
@@ -33,7 +29,7 @@ class InitMigration < ActiveRecord::Migration[6.0]
     create_table :cards do |t|
       t.string :name, null: false
       t.string :description
-      t.references :card_type
+      t.string :color
       t.references :effect
       t.integer :number, null: false
       t.string :suit, null: false
@@ -44,10 +40,10 @@ class InitMigration < ActiveRecord::Migration[6.0]
     end
 
     create_table :players do |t|
-      t.references :role
-      t.references :character
-      t.references :card
-      t.references :user
+      t.references :role, null: false
+      t.references :character, null: false
+      t.string :card
+      t.references :user, null: false
       t.integer :range
       t.integer :position, null: false
       t.integer :cur_hp, null: false
@@ -59,9 +55,10 @@ class InitMigration < ActiveRecord::Migration[6.0]
     end
 
     create_table :games do |t|
+      t.integer :id_g
       t.references :player
-      t.references :role
-      t.references :card
+      t.string :card
+      t.string :status
       t.timestamps
     end
   end
